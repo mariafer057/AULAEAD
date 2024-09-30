@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
+import './login.css';
+
 export default function Login() {
     const router = useRouter();
     const [email, setEmail] = useState('');
@@ -9,7 +11,7 @@ export default function Login() {
     const [errologin, setErrologin] = useState('');
 
     const login = () => {
-        if (email === '@gmail.com' && senha === 'admin') {
+        if (email.endsWith('admin@gmail.com') && senha === 'admin') {
             router.push('/');
         } else {
             setErrologin('Email e/ou senha incorretos :(');
@@ -38,7 +40,7 @@ export default function Login() {
                 <br />
                 <br />
                 <button onClick={login}>Login</button>       
-                {errologin && <p>{errologin}</p>}
+                {errologin && <p style={{ color: 'red' }}>{errologin}</p>}
             </center>
         </div>
     );
