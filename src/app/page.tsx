@@ -8,9 +8,6 @@ export default function Home() {
         <Link href="/login">
           <button>Faça o login aqui!</button>
         </Link>
-        <Link href="/cadastro">
-          <button>Faça o seu cadastro aqui!</button>
-        </Link>
       </center>
     </div>
   );

@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 import './login.css';
 
@@ -41,6 +42,12 @@ export default function Login() {
                 <br />
                 <button onClick={login}>Login</button>       
                 {errologin && <p style={{ color: 'red' }}>{errologin}</p>}
+                <br />
+                <button>
+                    <Link href={"/cadastro/"}>
+                    <p>Faça o cadastro aqui</p>
+                    </Link>
+                </button>
             </center>
         </div>
     );
