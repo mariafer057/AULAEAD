@@ -35,25 +35,24 @@ export default function Login() {
                 const { erro, mensagem, token = '' } = data;
 
                 if (erro) {
-                    setErrologin(mensagem);  // Corrigido: setError -> setErrologin
+                    setErrologin(mensagem);  
                 } else {
                     setCookie(undefined, 'restaurant-token', token, {
                         maxAge: 60 * 60 * 1, // 1 hora
                     });
+                    router.push('/');
                 }
             }
         } catch (error) {
             console.error('Erro na requisição', error);
+            setErrologin('Erro, tente mais tarde')
         }
-
-        console.log('Email:', email);
-        console.log('Senha:', password);
     };
 
     return (
         <div>
             <center>
-                <h1>PÁGINA DE LOGIN</h1>
+                <h1>Página de login</h1>
                 <br />
                 <form onSubmit={handleSubmit}>
                     <input

@@ -1,64 +1,119 @@
+
 'use client';
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import Usuario from "../Interfaces/usuario";
+import { ApiURL } from '@/config';
+import { setCookie } from 'nookies';
+import Link from 'next/link';
+
+interface ResponseCadastro {
+    erro: boolean;
+    mensagem: string;
+}
 
 export default function Cadastro() {
     const router = useRouter();
-    const [email, setEmail] = useState('');
-    const [senha, setSenha] = useState('');
-    const [cpf, setCpf] = useState('');
-    const [nome, setNome] = useState('');
-    const [erroCadastro, setErroCadastro] = useState('');
+    const [usuario, setUsuario] = useState<Usuario>({
+        nome: '',
+        email: '',
+        password: '',
+        tipo: 'cliente',
+    });
+    const [erroCadastro, setErroCadastro] = useState<string>('');
 
-    const cadastrar = () => {
-        if (email && senha && cpf && nome) {
-            router.push('/');
-        } else {
-            setErroCadastro('Preencha todos os campos corretamente!');
+    const mudarNome = (novoNome: string) => {
+        setUsuario((usuAntigo) => ({
+            ...usuAntigo,
+            nome: novoNome,
+        }));
+    };
+
+    const mudarEmail = (novoEmail: string) => {
+        setUsuario((usuAntigo) => ({
+            ...usuAntigo,
+            email: novoEmail,
+        }));
+    };
+
+    const mudarSenha = (novaSenha: string) => {
+        setUsuario((usuAntigo) => ({
+            ...usuAntigo,
+            password: novaSenha,
+        }));
+    };
+
+    const handleSubmit = async (e: FormEvent) => {
+        e.preventDefault();
+
+        if (!usuario.nome || !usuario.email || !usuario.password) {
+            setErroCadastro('Preencha todos os campos.');
+            return;
+        }
+
+        try {
+            const response = await fetch(`${ApiURL}/auth/cadastro`, { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(usuario),
+            });
+
+            if (!response.ok) {
+                throw new Error('Falha na requisição, confira o servidor.');
+            }
+            const data: ResponseCadastro = await response.json();
+            const { erro, mensagem } = data;
+
+            if (erro) {
+                setErroCadastro(mensagem);
+            } else {
+                router.push('/login');
+            }
+        } catch (error) {
+            console.error('Erro requisição:', error);
+            setErroCadastro('Erro, tente novamente mais tarde.');
         }
     };
 
+
     return (
         <div>
-            <center>
-                <h1>PÁGINA DE CADASTRO</h1>
-                <br />
-                <input 
-                    type="email" 
-                    placeholder="Digite seu email" 
-                    value={email} 
-                    onChange={(e) => setEmail(e.target.value)}
+            <h1>Página de cadastro</h1>
+            <form onSubmit={handleSubmit}>
+                <p>Nome:</p>
+                <input
+                    type="text"
+                    id="nome"
+                    placeholder="Digite seu nome"
+                    value={usuario.nome}
+                    onChange={(e) => mudarNome(e.target.value)}
                 />
-                <br />
-                <br />
-                <input 
-                    type="password" 
-                    placeholder="Digite sua senha" 
-                    value={senha} 
-                    onChange={(e) => setSenha(e.target.value)}
+                <p>
+                    <label htmlFor="email">Email:</label>
+                </p>
+                <input
+                    type="text"
+                    id="email"
+                    placeholder="Digite seu email"
+                    value={usuario.email}
+                    onChange={(e) => mudarEmail(e.target.value)}
                 />
-                <br />
-                <br />
-                <input 
-                    type="text" 
-                    placeholder="Digite seu CPF" 
-                    value={cpf} 
-                    onChange={(e) => setCpf(e.target.value)}
+                <p>
+                    <label htmlFor="senha">Senha:</label>
+                </p>
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Digite sua senha"
+                    value={usuario.password}
+                    onChange={(e) => mudarSenha(e.target.value)}
                 />
-                <br />
-                <br />
-                <input 
-                    type="text" 
-                    placeholder="Digite seu nome" 
-                    value={nome} 
-                    onChange={(e) => setNome(e.target.value)}
-                />
-                <br />
-                <br />
-                <button onClick={cadastrar}>Cadastrar</button>       
-                {erroCadastro && <p style={{ color: 'red' }}>{erroCadastro}</p>}
-            </center>
+                <button type="submit">
+                    Cadastrar
+                </button>
+                {erroCadastro && <p> {erroCadastro}</p>}
+            </form>
         </div>
     );
 }
