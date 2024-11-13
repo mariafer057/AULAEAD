@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { ApiURL } from '@/config';
 import { setCookie } from 'nookies';
 import Link from 'next/link';
+import Usuario from '../Interfaces/usuario';
 
 interface ResponseCadastro {
     erro: boolean;
@@ -22,22 +23,22 @@ export default function Cadastro() {
     const [erroCadastro, setErroCadastro] = useState<string>('');
 
     const mudarNome = (novoNome: string) => {
-        setUsuario((usuAntigo) => ({
-            ...usuAntigo,
+        setUsuario((usuarioAnterior) => ({
+            ...usuarioAnterior,
             nome: novoNome,
         }));
     };
 
     const mudarEmail = (novoEmail: string) => {
-        setUsuario((usuAntigo) => ({
-            ...usuAntigo,
+        setUsuario((usuarioAnterior) => ({
+            ...usuarioAnterior,
             email: novoEmail,
         }));
     };
 
     const mudarSenha = (novaSenha: string) => {
-        setUsuario((usuAntigo) => ({
-            ...usuAntigo,
+        setUsuario((usuarioAnterior) => ({
+            ...usuarioAnterior,
             password: novaSenha,
         }));
     };
@@ -59,9 +60,7 @@ export default function Cadastro() {
                 body: JSON.stringify(usuario),
             });
 
-            if (!response.ok) {
-                throw new Error('Falha na requisição, confira o servidor.');
-            }
+            if (response) {
             const data: ResponseCadastro = await response.json();
             const { erro, mensagem } = data;
 
@@ -70,6 +69,7 @@ export default function Cadastro() {
             } else {
                 router.push('/login');
             }
+        }
         } catch (error) {
             console.error('Erro requisição:', error);
             setErroCadastro('Erro, tente novamente mais tarde.');
