@@ -4,7 +4,23 @@ import React, { useState, FormEvent, useEffect} from 'react';
 import { ApiURL } from '../config';
 import { setCookie, parseCookies } from 'nookies';
 
+const Login = () =>{
+  const [email, setEmail] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
 
+  async function handleSing(){
+   e.preventDefault()
+    console.log(email, password)
+ 
+    const res = await fetch('http://localhost/auth/login', {
+    method: 'POST',
+    body: JSON.stringify({email, password})
+  })
+  console.log(res)
+  const data = await res.json()
+  console.log(data)
+  }
+}
 
 function Login() {
   const [email, setEmail] = useState('');
