@@ -7,6 +7,7 @@ import { setCookie, parseCookies } from 'nookies';
 const Login = () =>{
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
+  const [state, action, isPading] = useActionState (singup,{erro:false, mensagem:''})
 
   async function handleSing(){
    e.preventDefault()
@@ -14,11 +15,14 @@ const Login = () =>{
  
     const res = await fetch('http://localhost/auth/login', {
     method: 'POST',
+    headers: {'Content-Tipe' : 'application/json'},
     body: JSON.stringify({email, password})
   })
   console.log(res)
   const data = await res.json()
   console.log(data)
+  if(data.erro) return 
+  document.cookie = `restaurant-token=${data.token}`
   }
 }
 
