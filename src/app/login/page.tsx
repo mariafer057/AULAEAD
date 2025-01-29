@@ -3,13 +3,12 @@ import { useRouter } from 'next/navigation';
 import React, { useState, FormEvent, useEffect} from 'react';
 import { ApiURL } from '../config';
 import { setCookie, parseCookies } from 'nookies';
+import { singup } from '../utils/auth';
 
 const Login = () =>{
-  const [email, setEmail] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
-  const [state, action, isPading] = useActionState (singup,{erro:false, mensagem:''})
+  const [state, action, isPading] = useActionState (singup,{erro:false, email: '', mensagem:''})
 
-  async function handleSing(){
+  /*async function handleSing(){
    e.preventDefault()
     console.log(email, password)
  
@@ -40,7 +39,7 @@ function Login() {
   }, [router])
 
 
-  const  handleSubmit = async (e :FormEvent) => {
+  const handleSubmit = async (e :FormEvent) => {
     e.preventDefault();
     try {
 
@@ -73,7 +72,7 @@ function Login() {
     console.log('Senha:', password);
   };
 
-
+*/
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4 sm:p-6 lg:p-8">
@@ -86,7 +85,9 @@ function Login() {
         
         <div className="p-6 sm:p-8 lg:p-10 space-y-6">
           <h2 className="text-2xl font-bold text-center text-gray-700">Login</h2>
-          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+          {state?.erro && <p className="mb-4 text-sm text-red-500">{state.mensagem}</p>}
+
+          <form action={action}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-600">
                 Email
@@ -94,8 +95,7 @@ function Login() {
               <input
                 id="email"
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                defaultValue={state.email}
                 required
                 className="w-full px-4 py-2 mt-2 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-indigo-200 focus:border-indigo-300"
                 placeholder="Digite seu email"

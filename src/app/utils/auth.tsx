@@ -1,5 +1,7 @@
 'use server'
 
+import { cookies } from "next/headers"
+
 //server actions
 export async function singup(state: any, formData: FormData){
     const email = formData.get('email')
@@ -18,21 +20,29 @@ export async function singup(state: any, formData: FormData){
             headers: {'Content-Type' : 'application/json'},
             body : JSON.stringify({email, password})
           })
-          if (response){
-                  const data = await response.json();
+
+            console.log(res)
+
+                  const data = await res.json();
+
                   const {erro, mensagem, token} = data
-                  console.log(data)
-                  if (erro){
-                    setMsgError(mensagem)
-                  } else {
-                    setCookie(undefined, 'restaurant-token', token, {
+                 
+                  if (erro) return {erro, email, mensagem}
+                  const cookieStored = await cookies()
+                    cookieStored.set('restaurant-token', token, {
                       maxAge: 60*60*1 //1 hora
                     })
-                    router.push('/')
+                    return{
+                      erro, 
+                      mensagem
+                    }
                   }
                 }
               } catch (error) {
-                console.error('Erro na requisicao', error)
+                return{
+                  erro: error,
+                  mensagem: 'Valores recebidos'
+                }
               }
     return{
         error: false,
