@@ -3,7 +3,6 @@
 import { cookies } from "next/headers";
 import { ApiURL } from "./config";
 import { Reserva } from "../interfaces/interfaces";
-import { fetchReserva, fetchNovaReserva } from "@/app/utils/reservas";
 
 
 export async function fetchReserva(data: string): Promise<Reserva[] | null> {

@@ -6,7 +6,8 @@ import { useState, FormEvent } from "react";
 
 type Reserva = {
     mesaId: number;
-    // Add other properties of Reserva here
+    nomeCliente?: string;
+    horario?: string;
 };
 
 type ListMesasReservaProps = {
@@ -18,12 +19,49 @@ export function ListMesasReserva({ mesas }: ListMesasReservaProps) {
     const [reservas, setReservas] = useState<Reserva[] | null>(null);
     const [loadReservas, setLoadReservas] = useState(false);
     const [mesaS, setMesaS] = useState<Mesa | null>(null);
+    const [erroData, setErroData] = useState(false); // Estado para controlar erro
+
+    // Função para buscar as reservas
+    async function fetchReserva(data: string) {
+        try {
+            // Simulação de resposta de reservas
+            const reservasFake: Reserva[] = [
+                { mesaId: 1, nomeCliente: "João", horario: "12:00" },
+                { mesaId: 2, nomeCliente: "Maria", horario: "13:00" },
+            ];
+            return reservasFake;
+        } catch (error) {
+            console.error("Erro ao buscar reservas:", error);
+            return [];
+        }
+    }
+
+    // Função para fazer uma nova reserva
+    async function fetchNovaReserva(mesaId: number, n_pessoas: number, data: string) {
+        try {
+            // Simulação de resposta de nova reserva
+            const novaReserva = { mesaId, n_pessoas, data };
+            console.log("Reserva feita:", novaReserva);
+            return novaReserva;
+        } catch (error) {
+            console.error("Erro ao fazer reserva:", error);
+        }
+    }
 
     async function handleFetchData() {
         setLoadReservas(true);
-        await new Promise(resolve => setTimeout(resolve, 3000));
+        await new Promise(resolve => setTimeout(resolve, 8000));
+
         const res = await fetchReserva(data);
-        setReservas(res);
+        
+        // Verifica se não há reservas para a data
+        if (res.length === 0) {
+            setErroData(true); // Exibe o erro se não houver mesas
+        } else {
+            setErroData(false); // Reseta o erro caso haja mesas
+            setReservas(res); // Define as reservas para a data
+        }
+        
         setLoadReservas(false);
     }
 
@@ -37,7 +75,7 @@ export function ListMesasReserva({ mesas }: ListMesasReservaProps) {
         const n_pessoas = parseInt(formData.get('n_pessoas') as string);
 
         const res = await fetchNovaReserva(mesaId, n_pessoas, data);
-        console.log(res);
+        console.log("Reserva realizada:", res);
     }
 
     return (
@@ -62,6 +100,9 @@ export function ListMesasReserva({ mesas }: ListMesasReservaProps) {
                     </button>
                 </div>
                 {loadReservas && <p className="text-center mt-4">Carregando Mesas...</p>}
+                {erroData && (
+                    <p className="text-center mt-4 text-red-500">Nenhuma mesa disponível para a data selecionada.</p>
+                )}
                 <div className="grid grid-cols-4 lg:grid-cols-12 gap-4 mt-4">
                     {reservas && !loadReservas &&
                         mesas.map(mesa => {
