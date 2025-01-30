@@ -6,7 +6,8 @@ import { useState, FormEvent } from "react";
 
 type Reserva = {
     mesaId: number;
-    // Add other properties of Reserva here
+    nomeCliente?: string;
+    horario?: string;
 };
 
 type ListMesasReservaProps = {
@@ -19,9 +20,39 @@ export function ListMesasReserva({ mesas }: ListMesasReservaProps) {
     const [loadReservas, setLoadReservas] = useState(false);
     const [mesaS, setMesaS] = useState<Mesa | null>(null);
 
+    // Função para buscar as reservas
+    async function fetchReserva(data: string) {
+        try {
+            // Aqui você faria a requisição para buscar as reservas.
+            // Exemplo de simulação com dados fictícios:
+            const reservasFake: Reserva[] = [
+                { mesaId: 1, nomeCliente: "João", horario: "12:00" },
+                { mesaId: 2, nomeCliente: "Maria", horario: "13:00" },
+            ];
+            return reservasFake;
+        } catch (error) {
+            console.error("Erro ao buscar reservas:", error);
+            return [];
+        }
+    }
+
+    // Função para fazer uma nova reserva
+    async function fetchNovaReserva(mesaId: number, n_pessoas: number, data: string) {
+        try {
+            // Aqui você faria a requisição para fazer a nova reserva.
+            // Exemplo de simulação de resposta:
+            const novaReserva = { mesaId, n_pessoas, data };
+            console.log("Reserva feita:", novaReserva);
+            return novaReserva;
+        } catch (error) {
+            console.error("Erro ao fazer reserva:", error);
+        }
+    }
+
     async function handleFetchData() {
         setLoadReservas(true);
-        await new Promise(resolve => setTimeout(resolve, 3000));
+        await new Promise(resolve => setTimeout(resolve, 8000));
+        
         const res = await fetchReserva(data);
         setReservas(res);
         setLoadReservas(false);
@@ -37,7 +68,7 @@ export function ListMesasReserva({ mesas }: ListMesasReservaProps) {
         const n_pessoas = parseInt(formData.get('n_pessoas') as string);
 
         const res = await fetchNovaReserva(mesaId, n_pessoas, data);
-        console.log(res);
+        console.log("Reserva realizada:", res);
     }
 
     return (

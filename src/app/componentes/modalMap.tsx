@@ -35,7 +35,7 @@ export default function ModalMap() {
                             </button>
                             <div className="relative w-full aspect-video">
                                 <Image 
-                                    src={'/mapa.jpg'} 
+                                    src={'/mapa.png'} 
                                     alt="mapa restaurante" 
                                     className="w-full h-full rounded-md"
                                     layout="responsive" // Substituindo fill para evitar sobreposição

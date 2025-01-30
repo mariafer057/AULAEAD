@@ -1,4 +1,4 @@
-import PerfilDaMesa from '../Interfaces/mesa';
+import PerfilDaMesa from '../interfaces/mesa';
 
 const PaginaMesa = () => {
   const mesa = {

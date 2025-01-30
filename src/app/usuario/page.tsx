@@ -1,4 +1,4 @@
-import PerfilDoUsuario from '../Interfaces/usuario';
+import PerfilDoUsuario from '../interfaces/usuario';
 
 const PaginaUsuario = () => {
   const usuario = {
