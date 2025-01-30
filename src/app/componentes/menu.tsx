@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Usuario from "../Interfaces/usuario";
+import Usuario from "../interfaces/usuario";
 import Link from "next/link";
 import { ChefHat, ClipboardList, User } from "lucide-react";
 
@@ -56,7 +56,7 @@ export default function Menu({ user }: MenuProps) {
                         <ClipboardList className="w-5 h-5 mr-2"/>
                         Minhas Reservas
                     </Link>
-                    <Link href={'/mesas'} className="flex items-center bg-white text-gray-800 w-full py-2 px-4 shadow-md rounded-lg hover:bg-slate-300 transition-colors">
+                    <Link href={'/mesa'} className="flex items-center bg-white text-gray-800 w-full py-2 px-4 shadow-md rounded-lg hover:bg-slate-300 transition-colors">
                         <ChefHat className="w-5 h-5 mr-2"/>
                         Mesas
                     </Link>

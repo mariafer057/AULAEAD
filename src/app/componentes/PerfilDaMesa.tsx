@@ -4,8 +4,6 @@ type MesasType = {
     n_lugares: number,
 }
 
-
-
 export async function FecthMesas (){
     const response = await fetch('http://localhost:8000/reservas')
     const data = await response.json()

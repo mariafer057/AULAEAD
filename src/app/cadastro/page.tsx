@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { ApiURL } from '@/app/config';
 import { setCookie } from 'nookies';
 import Link from 'next/link';
-import Usuario from '../Interfaces/usuario';
+import Usuario from '../interfaces/usuario';
 
 interface ResponseCadastro {
     erro: boolean;
