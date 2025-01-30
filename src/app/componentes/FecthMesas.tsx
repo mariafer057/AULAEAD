@@ -7,7 +7,7 @@ type MesasType = {
 
 
 export async function FecthMesas (){
-    const response = await fetch('http://localhost:3333/reservas')
+    const response = await fetch('http://localhost:8000/reservas')
     const data = await response.json()
     const mesas : MesasType[] = data.mesas
     console.log(mesas)

@@ -7,7 +7,7 @@ const PaginaUsuario = () => {
     idade: 28,
     email: 'joao.silva@example.com',
     password: 'senha123',
-    tipo: 'cliente',
+    tipo: 'adm',
   };
 
   return (

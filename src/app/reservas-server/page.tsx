@@ -1,6 +1,6 @@
 
 import { ChangeEvent} from "react";
-import { FecthMesas } from "../components/FecthMesas";
+import { FecthMesas } from "../componentes/FecthMesas";
 
 type MesasType = {
   id:  number,

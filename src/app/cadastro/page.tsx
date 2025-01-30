@@ -2,7 +2,7 @@
 'use client';
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import { ApiURL } from '@/config';
+import { ApiURL } from '@/app/config';
 import { setCookie } from 'nookies';
 import Link from 'next/link';
 import Usuario from '../Interfaces/usuario';

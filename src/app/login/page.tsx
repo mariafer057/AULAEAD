@@ -1,139 +1,106 @@
-'use client'
+'use client';
+
+import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import React, { useState, FormEvent, useEffect} from 'react';
 import { ApiURL } from '../config';
-import { setCookie, parseCookies } from 'nookies';
-import { singup } from '../utils/auth';
+import styles from './login.module.css';
+import Link from 'next/link';
+import { setCookie } from 'nookies';
+import NavBar from '../componentes/navbar';  // Adicione esta linha
 
-const Login = () =>{
-  const [state, action, isPading] = useActionState (singup,{erro:false, email: '', mensagem:''})
-
-  /*async function handleSing(){
-   e.preventDefault()
-    console.log(email, password)
- 
-    const res = await fetch('http://localhost/auth/login', {
-    method: 'POST',
-    headers: {'Content-Tipe' : 'application/json'},
-    body: JSON.stringify({email, password})
-  })
-  console.log(res)
-  const data = await res.json()
-  console.log(data)
-  if(data.erro) return 
-  document.cookie = `restaurant-token=${data.token}`
-  }
+interface ResponseSignin {
+  erro: boolean;
+  mensagem: string;
+  token?: string;
 }
 
-function Login() {
+export default function Login() {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [msgError, setMsgError] = useState('');
-  const router = useRouter();
+  const [errologin, setErroLogin] = useState('');
 
-  useEffect(()=> {
-    const {'restaurant-token' : token} = parseCookies()
-    if (token){
-      router.push('/')
-    }
-  }, [router])
-
-
-  const handleSubmit = async (e :FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    try {
 
+    if (!email.includes('@')) {
+      setErroLogin('Por favor, insira um email válido.');
+      return;
+    }
+
+    if (password.length < 6) {
+      setErroLogin('A senha deve ter pelo menos 6 caracteres.');
+      return;
+    }
+
+    try {
       const response = await fetch(`${ApiURL}/auth/login`, {
         method: 'POST',
         headers: {
-          'Content-Type' : 'application/json'
+          'Content-Type': 'application/json',
         },
-        body : JSON.stringify({email, password})
-      })
-  
-      if (response){
-        const data = await response.json();
-        const {erro, mensagem, token} = data
-        console.log(data)
-        if (erro){
-          setMsgError(mensagem)
-        } else {
-          setCookie(undefined, 'restaurant-token', token, {
-            maxAge: 60*60*1 //1 hora
-          })
-          router.push('/')
-        }
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Falha na requisição. Verifique o servidor.');
+      }
+
+      const data: ResponseSignin = await response.json();
+      const { erro, mensagem, token = '' } = data;
+
+      if (erro) {
+        setErroLogin(mensagem);
+      } else {
+        setCookie(undefined, 'restaurant-token', token, {
+          maxAge: 60 * 60 * 1, // 1 hora
+          path: '/',
+        });
+        router.push('/');
       }
     } catch (error) {
-      console.error('Erro na requisicao', error)
+      console.error('Erro na requisição:', error);
+      setErroLogin('Ocorreu um erro. Tente novamente mais tarde.');
     }
-
-    console.log('Email:', email);
-    console.log('Senha:', password);
   };
 
-*/
-
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4 sm:p-6 lg:p-8">
-      <div className="w-full max-w-sm sm:max-w-md lg:max-w-lg bg-white rounded-lg shadow-md overflow-hidden">
-        <img
-          className="w-full h-32 object-cover"
-          src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=60&w=1035&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt="Capa"
-        />
-        
-        <div className="p-6 sm:p-8 lg:p-10 space-y-6">
-          <h2 className="text-2xl font-bold text-center text-gray-700">Login</h2>
-          {state?.erro && <p className="mb-4 text-sm text-red-500">{state.mensagem}</p>}
-
-          <form action={action}>
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-600">
-                Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                defaultValue={state.email}
-                required
-                className="w-full px-4 py-2 mt-2 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-indigo-200 focus:border-indigo-300"
-                placeholder="Digite seu email"
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-600">
-                Senha
-              </label>
-              <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="w-full px-4 py-2 mt-2 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-indigo-200 focus:border-indigo-300"
-                placeholder="Digite sua senha"
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full px-4 py-2 text-white bg-indigo-500 rounded-lg hover:bg-indigo-600 focus:outline-none focus:bg-indigo-700"
-            >
-              Entrar
-            </button>
-            <p className="text-center text-sm text-gray-600">
-              Não tem uma conta?{' '}
-              <a onClick={() => router.push('/cadastrar')} className="text-indigo-500 hover:underline">
-                Cadastre-se
-              </a>
-              {msgError && <a className='text-red-400 block'>{msgError}</a>}
-
-            </p>
-          </form>
-        </div>
-      </div>
+    <div>
+      <NavBar />
+      <h1 className={styles.center}>PÁGINA PARA LOGIN</h1>
+      <br />
+      <form onSubmit={handleSubmit}>
+        <center>
+          <input
+            className={styles.input}
+            type="email"
+            placeholder="Digite seu email"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setErroLogin('');
+            }}
+          />
+          <br /><br />
+          <input
+            className={styles.input}
+            type="password"
+            placeholder="Digite sua senha"
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setErroLogin('');
+            }}
+          />
+          <br /><br />
+          <button type="submit" className={styles.button}>Entrar</button>
+          {errologin && <p className={styles.p}>{errologin}</p>}
+          <br />
+          <Link href="/cadastro">
+            <button className={styles.button}>Fazer Cadastro!</button>
+          </Link>
+        </center>
+      </form>
     </div>
   );
 }
-
-export default Login;

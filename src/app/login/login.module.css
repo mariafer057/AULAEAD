@@ -1,0 +1,28 @@
+/* login.module.css */
+.container {
+    /* Define o estilo de contêiner, exemplo */
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .inputField {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .errorText {
+    color: red;
+  }
+  
+  .button {
+    background-color: purple;
+    padding: 10px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* Outras classes CSS podem ser adicionadas conforme necessário */
+  
