@@ -37,7 +37,7 @@ export default function Reservas() {
         <Menu user={user} />
         <div className="w-full p-4 lg:p-8">
           <h2 className="text-2xl font-bold mb-4">Suas Reservas:</h2>
-          <ListMinhasReservas /> 
+          <ListMinhasReservas /> {}
         </div>
       </div>
     </>

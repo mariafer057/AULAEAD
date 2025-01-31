@@ -23,6 +23,11 @@
     border-radius: 5px;
     cursor: pointer;
   }
-  
+  .center{
+    color: purple;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+  }
   /* Outras classes CSS podem ser adicionadas conforme necessário */
   

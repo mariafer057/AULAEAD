@@ -12,7 +12,7 @@ export default function ModalMap() {
                 className="relative w-3/4 lg:w-1/4 aspect-video border-4 border-gray-400 rounded-lg shadow-md cursor-pointer"
                 onClick={() => setIsMapOpen(true)}
             >
-                <Image src="/images/mapa.jpg" fill alt="mapa restaurante" />
+                <Image src="/mapa.png" fill alt="mapa restaurante" />
 
                 {isMapOpen && (
                     <div 
@@ -35,7 +35,7 @@ export default function ModalMap() {
                             </button>
                             <div className="relative w-full aspect-video">
                                 <Image 
-                                    src={'/public/mapa.png'} 
+                                    src={'/mapa.png'} 
                                     alt="mapa restaurante" 
                                     className="w-full h-full rounded-md"
                                     layout="responsive" // Substituindo fill para evitar sobreposição

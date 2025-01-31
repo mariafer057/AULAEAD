@@ -44,6 +44,38 @@ export default function Home() {
           </div>
           <div className={styles.card}>
             <Image
+              src="/tacos.jpg"
+              alt="Restaurante Mexicano"
+              width={400}
+              height={250}
+              className={styles.cardImage}
+            />
+            <div className={styles.cardContent}>
+              <h2 className={styles.cardTitle}>El Mariachi</h2>
+              <p className={styles.cardDescription}>
+                Venha desfrutar da verdadeira comida mexicana em um ambiente acolhedor e vibrante. 
+                Aqui, você vai se sentir no México com nossas receitas autênticas.
+              </p>
+            </div>
+          </div>
+          <div className={styles.card}>
+            <Image
+              src="/tacos.jpg"
+              alt="Restaurante Mexicano"
+              width={400}
+              height={250}
+              className={styles.cardImage}
+            />
+            <div className={styles.cardContent}>
+              <h2 className={styles.cardTitle}>El Mariachi</h2>
+              <p className={styles.cardDescription}>
+                Venha desfrutar da verdadeira comida mexicana em um ambiente acolhedor e vibrante. 
+                Aqui, você vai se sentir no México com nossas receitas autênticas.
+              </p>
+            </div>
+          </div>
+          <div className={styles.card}>
+            <Image
               src="/burrito.jpg"
               alt="Prato típico mexicano"
               width={400}

@@ -3,10 +3,9 @@
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { ApiURL } from '../config';
-import styles from './login.module.css';
 import Link from 'next/link';
 import { setCookie } from 'nookies';
-import NavBar from '../componentes/navbar';  // Adicione esta linha
+import NavBar from '../componentes/navbar';  // Importando o componente NavBar
 
 interface ResponseSignin {
   erro: boolean;
@@ -65,42 +64,97 @@ export default function Login() {
   };
 
   return (
-    <div>
+    <>
       <NavBar />
-      <h1 className={styles.center}>PÁGINA PARA LOGIN</h1>
-      <br />
-      <form onSubmit={handleSubmit}>
-        <center>
-          <input
-            className={styles.input}
-            type="email"
-            placeholder="Digite seu email"
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-              setErroLogin('');
-            }}
-          />
-          <br /><br />
-          <input
-            className={styles.input}
-            type="password"
-            placeholder="Digite sua senha"
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-              setErroLogin('');
-            }}
-          />
-          <br /><br />
-          <button type="submit" className={styles.button}>Entrar</button>
-          {errologin && <p className={styles.p}>{errologin}</p>}
-          <br />
-          <Link href="/cadastro">
-            <button className={styles.button}>Fazer Cadastro!</button>
-          </Link>
-        </center>
-      </form>
-    </div>
+      <div style={styles.pageContainer}>
+        <h1 style={styles.title}>PÁGINA PARA LOGIN</h1>
+        <br />
+        <form onSubmit={handleSubmit} style={styles.formContainer}>
+          <div style={styles.card}>
+            <center>
+              <input
+                type="email"
+                placeholder="Digite seu email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setErroLogin('');
+                }}
+                style={styles.input}
+              />
+              <br /><br />
+              <input
+                type="password"
+                placeholder="Digite sua senha"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setErroLogin('');
+                }}
+                style={styles.input}
+              />
+              <br /><br />
+              <button type="submit" style={styles.button}>Entrar</button>
+              {errologin && <p style={styles.errorText}>{errologin}</p>}
+              <br />
+              <Link href="/cadastro">
+                <button style={styles.button}>Fazer Cadastro!</button>
+              </Link>
+            </center>
+          </div>
+        </form>
+      </div>
+    </>
   );
 }
+
+const styles = {
+  pageContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100vh',
+    backgroundColor: '#f5f5f5',
+  },
+  title: {
+    fontSize: '2rem',
+    marginBottom: '2rem',
+    color: '#000'
+  },
+  formContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '100%',
+    maxWidth: '400px',
+  },
+  card: {
+    backgroundColor: 'white',
+    padding: '2rem',
+    borderRadius: '8px',
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+    width: '100%',
+  },
+  input: {
+    width: '100%',
+    padding: '0.75rem',
+    marginBottom: '1rem',
+    borderRadius: '4px',
+    border: '1px solid #ccc',
+    color: 'black',
+  },
+  button: {
+    width: '100%',
+    padding: '0.75rem',
+    backgroundColor: '#0070f3',
+    color: 'white',
+    borderRadius: '4px',
+    border: 'none',
+    cursor: 'pointer',
+  },
+  errorText: {
+    color: 'red',
+    marginTop: '1rem',
+  },
+};
